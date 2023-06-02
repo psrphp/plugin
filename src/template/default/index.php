@@ -99,32 +99,60 @@
             <span>，开发者请阅读：<a href="https://github.com/psrphp" target="_blank" class="mx-1 fw-bold">[https://github.com/psrphp]</a>.</span>
         </div>
     </div>
-    <div class="d-flex flex-column gap-4">
-        {foreach $plugins as $plugin}
-        <div class="d-flex gap-3">
-            <div>
-                <img src="{echo $plugin['logo']}" width="100" alt="">
-            </div>
-            <div class="d-flex flex-column gap-2 flex-grow-1 bg-light p-3">
-                <div><span class="fs-6 fw-bold">{$plugin['title']?:'-'}</span><sup class="ms-1 text-secondary">{$plugin['version']??''}</sup></div>
-                <div>{$plugin.description}</div>
-                <div><code>{$plugin.name}</code> </div>
-                <div class="d-flex gap-2">
-                    {if $plugin['install']}
-                    {if $plugin['disabled']}
-                    <button class="btn btn-sm btn-warning" type="button" onclick="change('{$plugin.name}', 0);" data-bs-toggle="tooltip" data-bs-placement="right" title="插件已停用，点此切换">已停用</button>
-                    <button class="btn btn-sm btn-warning" type="button" onclick="uninstall('{$plugin.name}');" data-bs-toggle="tooltip" data-bs-placement="right" title="点此卸载此插件">卸载</button>
-                    {else}
-                    <button class="btn btn-sm btn-primary" type="button" onclick="change('{$plugin.name}', 1);" data-bs-toggle="tooltip" data-bs-placement="right" title="插件已启用，点此切换">已启用</button>
-                    {/if}
-                    {else}
-                    <button class="btn btn-sm btn-primary" type="button" onclick="install('{$plugin.name}');" data-bs-toggle="tooltip" data-bs-placement="right" title="该插件未安装，点此安装">安装</button>
-                    <button class="btn btn-sm btn-warning" type="button" onclick="del('{$plugin.name}');" data-bs-toggle="tooltip" data-bs-placement="right" title="彻底删除该插件">删除</button>
-                    {/if}
+    <div class="my-4">
+        <div class="fs-4 mb-3">已启用</div>
+        <div class="d-flex flex-column gap-4">
+            {foreach $plugins as $plugin}
+            {if $plugin['install'] && !$plugin['disabled']}
+            <div class="d-flex gap-3">
+                <div>
+                    <img src="{echo $plugin['logo']}" width="100" alt="">
+                </div>
+                <div class="d-flex flex-column gap-2 flex-grow-1 bg-light p-3">
+                    <div><span class="fs-6 fw-bold">{$plugin['title']??'-'}</span><sup class="ms-1 text-secondary">{$plugin['version']??''}</sup></div>
+                    <div>{$plugin['description']??''}</div>
+                    <div><code>{$plugin.name}</code> </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-primary" type="button" onclick="change('{$plugin.name}', 1);" data-bs-toggle="tooltip" data-bs-placement="right" title="插件已启用，点此切换">已启用</button>
+                    </div>
                 </div>
             </div>
+            {/if}
+            {/foreach}
         </div>
-        {/foreach}
+    </div>
+
+    <div class="my-4">
+        <div class="fs-4 mb-3">未启用</div>
+        <div class="d-flex flex-column gap-4">
+            {foreach $plugins as $plugin}
+            {if !$plugin['install'] || $plugin['disabled']}
+            <div class="d-flex gap-3">
+                <div>
+                    <img src="{echo $plugin['logo']}" width="100" alt="">
+                </div>
+                <div class="d-flex flex-column gap-2 flex-grow-1 bg-light p-3">
+                    <div><span class="fs-6 fw-bold">{$plugin['title']??'-'}</span><sup class="ms-1 text-secondary">{$plugin['version']??''}</sup></div>
+                    <div>{$plugin['description']??''}</div>
+                    <div><code>{$plugin.name}</code> </div>
+                    <div class="d-flex gap-2">
+                        {if $plugin['install']}
+                        {if $plugin['disabled']}
+                        <button class="btn btn-sm btn-warning" type="button" onclick="change('{$plugin.name}', 0);" data-bs-toggle="tooltip" data-bs-placement="right" title="插件已停用，点此切换">已停用</button>
+                        <button class="btn btn-sm btn-warning" type="button" onclick="uninstall('{$plugin.name}');" data-bs-toggle="tooltip" data-bs-placement="right" title="点此卸载此插件">卸载</button>
+                        {else}
+                        <button class="btn btn-sm btn-primary" type="button" onclick="change('{$plugin.name}', 1);" data-bs-toggle="tooltip" data-bs-placement="right" title="插件已启用，点此切换">已启用</button>
+                        {/if}
+                        {else}
+                        <button class="btn btn-sm btn-primary" type="button" onclick="install('{$plugin.name}');" data-bs-toggle="tooltip" data-bs-placement="right" title="该插件未安装，点此安装">安装</button>
+                        <button class="btn btn-sm btn-warning" type="button" onclick="del('{$plugin.name}');" data-bs-toggle="tooltip" data-bs-placement="right" title="彻底删除该插件">删除</button>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            {/if}
+            {/foreach}
+        </div>
     </div>
 </div>
 {include common/footer@psrphp/admin}
