@@ -96,7 +96,7 @@
         <div class="h1">插件管理</div>
         <div class="text-muted fw-light">
             <span>插件位于<code>/plugin</code>目录</span>
-            <span>，开发者请阅读：<a href="https://github.com/psrphp" target="_blank" class="mx-1 fw-bold">[https://github.com/psrphp]</a>.</span>
+            <span>，开发者请阅读：<a href="https://github.com/psrphp/plugin" target="_blank" class="mx-1 fw-bold">[https://github.com/psrphp/plugin]</a>.</span>
         </div>
     </div>
     <div class="my-4">
