@@ -23,7 +23,7 @@ class ListenerProvider implements ListenerProviderInterface
                     Event $event,
                     Container $container,
                 ) {
-                    $root = dirname(dirname(dirname(dirname(dirname(dirname(dirname(__DIR__)))))));
+                    $root = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
                     spl_autoload_register(function (string $class) use ($root) {
                         $paths = explode('\\', $class);
                         if (isset($paths[3]) && $paths[0] == 'App' && $paths[1] == 'Plugin') {

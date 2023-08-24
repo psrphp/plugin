@@ -16,7 +16,7 @@ class Install extends Common
         Request $request
     ) {
         $name = $request->post('name');
-        $root = dirname(dirname(dirname(dirname(dirname(dirname(dirname(__DIR__)))))));
+        $root = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
         $install_lock = $root . '/config/' . $name . '/install.lock';
         if (file_exists($install_lock)) {
             return Response::error('已经安装，若要重装请先卸载！');
