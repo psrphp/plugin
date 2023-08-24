@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Psrphp\Plugin\Psrphp;
 
-use App\Psrphp\Admin\Http\Plugin\Index;
 use App\Psrphp\Admin\Model\MenuProvider;
+use App\Psrphp\Plugin\Http\Index;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use PsrPHP\Framework\Framework;
 use PsrPHP\Psr11\Container;
