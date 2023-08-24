@@ -7,10 +7,8 @@ namespace App\Psrphp\Plugin\Http;
 use App\Psrphp\Admin\Http\Common;
 use App\Psrphp\Admin\Lib\Response;
 use Composer\Autoload\ClassLoader;
-use Composer\InstalledVersions;
 use PsrPHP\Request\Request;
 use PsrPHP\Framework\Framework;
-use ReflectionClass;
 
 class Install extends Common
 {
@@ -18,10 +16,7 @@ class Install extends Common
         Request $request
     ) {
         $name = $request->post('name');
-        if (InstalledVersions::isInstalled($name)) {
-            return Response::error('系统应用不支持该操作！');
-        }
-        $root = dirname(dirname(dirname((new ReflectionClass(InstalledVersions::class))->getFileName())));
+        $root = dirname(dirname(dirname(dirname(dirname(dirname(dirname(__DIR__)))))));
         $install_lock = $root . '/config/' . $name . '/install.lock';
         if (file_exists($install_lock)) {
             return Response::error('已经安装，若要重装请先卸载！');
@@ -34,7 +29,7 @@ class Install extends Common
         );
         $loader->register();
 
-        $class_name = str_replace(['-', '/'], ['', '\\'], ucwords('\\App\\' . $name . '\\PsrPHP\\Script', '/\\-'));
+        $class_name = str_replace(['-', '/'], ['', '\\'], ucwords('\\App\\' . $name . '\\Psrphp\\Script', '/\\-'));
         $action = 'onInstall';
         if (method_exists($class_name, $action)) {
             Framework::execute([$class_name, $action]);
@@ -46,5 +41,20 @@ class Install extends Common
         file_put_contents($install_lock, date(DATE_ATOM));
 
         return Response::success('操作成功！');
+    }
+
+    private static function requireFile(string $file)
+    {
+        static $loader;
+        if (!$loader) {
+            $loader = new class()
+            {
+                public function load(string $file)
+                {
+                    return require $file;
+                }
+            };
+        }
+        return $loader->load($file);
     }
 }

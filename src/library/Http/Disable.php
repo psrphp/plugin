@@ -6,9 +6,7 @@ namespace App\Psrphp\Plugin\Http;
 
 use App\Psrphp\Admin\Http\Common;
 use App\Psrphp\Admin\Lib\Response;
-use Composer\InstalledVersions;
 use PsrPHP\Request\Request;
-use ReflectionClass;
 
 class Disable extends Common
 {
@@ -17,15 +15,10 @@ class Disable extends Common
         Request $request
     ) {
         $name = $request->post('name');
-        if (InstalledVersions::isInstalled($name)) {
-            return Response::error('系统应用不支持该操作！');
-        }
-        $root = dirname(dirname(dirname((new ReflectionClass(InstalledVersions::class))->getFileName())));
-        if (!InstalledVersions::isInstalled($name)) {
-            $install_lock = $root . '/config/' . $name . '/install.lock';
-            if (!file_exists($install_lock)) {
-                return Response::error('未安装！');
-            }
+        $root = dirname(dirname(dirname(dirname(dirname(dirname(dirname(__DIR__)))))));
+        $install_lock = $root . '/config/' . $name . '/install.lock';
+        if (!file_exists($install_lock)) {
+            return Response::error('未安装！');
         }
 
         $disabled_file = $root . '/config/' . $name . '/disabled.lock';
