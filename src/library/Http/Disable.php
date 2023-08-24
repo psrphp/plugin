@@ -7,11 +7,13 @@ namespace App\Psrphp\Plugin\Http;
 use App\Psrphp\Admin\Http\Common;
 use App\Psrphp\Admin\Lib\Response;
 use PsrPHP\Request\Request;
+use PsrPHP\Router\Router;
 
 class Disable extends Common
 {
 
     public function post(
+        Router $router,
         Request $request
     ) {
         $name = $request->post('name');
@@ -34,6 +36,6 @@ class Disable extends Common
                 unlink($disabled_file);
             }
         }
-        return Response::success('操作成功！');
+        return Response::redirect($router->build('/psrphp/plugin/index'));
     }
 }

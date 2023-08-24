@@ -9,10 +9,12 @@ use App\Psrphp\Admin\Lib\Response;
 use Composer\Autoload\ClassLoader;
 use PsrPHP\Request\Request;
 use PsrPHP\Framework\Framework;
+use PsrPHP\Router\Router;
 
 class Install extends Common
 {
     public function post(
+        Router $router,
         Request $request
     ) {
         $name = $request->post('name');
@@ -40,21 +42,6 @@ class Install extends Common
         }
         file_put_contents($install_lock, date(DATE_ATOM));
 
-        return Response::success('操作成功！');
-    }
-
-    private static function requireFile(string $file)
-    {
-        static $loader;
-        if (!$loader) {
-            $loader = new class()
-            {
-                public function load(string $file)
-                {
-                    return require $file;
-                }
-            };
-        }
-        return $loader->load($file);
+        return Response::redirect($router->build('/psrphp/plugin/index'));
     }
 }

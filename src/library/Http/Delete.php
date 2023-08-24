@@ -8,10 +8,12 @@ use App\Psrphp\Admin\Http\Common;
 use App\Psrphp\Admin\Lib\Dir;
 use App\Psrphp\Admin\Lib\Response;
 use PsrPHP\Request\Request;
+use PsrPHP\Router\Router;
 
 class Delete extends Common
 {
     public function post(
+        Router $router,
         Request $request
     ) {
         $name = $request->post('name');
@@ -26,6 +28,7 @@ class Delete extends Common
         }
         Dir::del($root . '/' . $name);
         Dir::del($root . '/config/' . $name);
-        return Response::success('操作成功！');
+
+        return Response::redirect($router->build('/psrphp/plugin/index'));
     }
 }

@@ -8,11 +8,13 @@ use App\Psrphp\Admin\Http\Common;
 use App\Psrphp\Admin\Lib\Response;
 use PsrPHP\Request\Request;
 use PsrPHP\Framework\Framework;
+use PsrPHP\Router\Router;
 
 class UnInstall extends Common
 {
 
     public function post(
+        Router $router,
         Request $request
     ) {
         $name = $request->post('name');
@@ -33,21 +35,7 @@ class UnInstall extends Common
             Framework::execute([$class_name, $action]);
         }
         unlink($install_lock);
-        return Response::success('操作成功！');
-    }
 
-    private static function requireFile(string $file)
-    {
-        static $loader;
-        if (!$loader) {
-            $loader = new class()
-            {
-                public function load(string $file)
-                {
-                    return require $file;
-                }
-            };
-        }
-        return $loader->load($file);
+        return Response::redirect($router->build('/psrphp/plugin/index'));
     }
 }
